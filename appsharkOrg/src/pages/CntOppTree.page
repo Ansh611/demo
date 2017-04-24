@@ -1,0 +1,33 @@
+<apex:page controller="ContactPicklistCont" showHeader="true" sidebar="false">
+    <head>
+        <script>
+        /*function getcont(){
+                actionfun();
+                }*/
+        function getcontopp(id){
+            // alert(id);
+            myactionfun(id);
+        }
+        </script>
+    </head>
+    <apex:form >
+        <apex:actionFunction name="myactionfun"  action="{!getcontoppo}" reRender="OP">
+            <apex:param assignTo="{!recid}" name="recId" value=""  />
+        </apex:actionFunction>
+        <apex:inputText value="{!accountName}" />
+        <apex:commandButton value="Search" action="{!getcont}" />
+        <details>
+        <summary>Contacts</summary>
+            <details>
+                 <apex:repeat value="{!contactList}" var="a" id="theRepeat">
+                <summary  onclick="getcontopp('{!a.Id}')">
+                 {!a.name}
+            
+              <br></br>
+                
+                </summary>
+                 </apex:repeat>
+            </details>            
+        </details>
+    </apex:form>
+</apex:page>

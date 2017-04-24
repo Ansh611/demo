@@ -1,0 +1,41 @@
+<apex:page controller="mouseover_acc_show_cnt" id="ap">
+    
+    <script type="text/javascript">
+    function getmouseover(row)
+    {
+ {
+           var accId=document.getElementById("pg:fm:pb:pbt:"+(row.rowIndex-1)+":accId").innerHTML;			
+           Visualforce.remoting.Manager.invokeAction(
+      		'{!$RemoteAction.mouseover_acc_show_cnt.contactPopup}', accId,
+               function(result, event)																						//function gets all the related contacts of the accounts.
+           {
+               
+               var tooltip=document.getElementById("pg:fm:pb:pbt:"+(row.rowIndex-1)+":cons");
+               tooltip.innerHTML="";																	
+               for(var i in result)																							//Looping List of Contacts.
+               {
+                	var obj= result[i];
+                    console.log(obj)
+                    tooltip.innerHTML += obj.LastName==undefined?"":obj.LastName + "<br/>";									//Check if the Last Name is not null.
+               }
+               tooltip.setAttribute("style","visibility:block");	
+    }
+      function getmouseout(row)
+         {
+         document.getElementById("pg:fm:pb:pbt:"+(row.rowIndex-1)+":cons").setAttribute("style","visibility:hidden");	
+         }
+    
+   </script>
+     <apex:form id="fm">
+        <apex:pageBlock id="pb">
+            <apex:pageBlockTable value="{!lstAcc}" var="a" onRowMouseOver="onhover(this)" onRowMouseOut="mouseout(this)" id="pbt">		<!--get list of Accounts to be displayed on page block Table-->
+                <apex:column >
+                    <apex:outputLabel >{!a.name}</apex:outputLabel>																		<!--display Account Names -->
+                	<apex:outputPanel style="display:none" id="accId">{!a.id}</apex:outputPanel>
+                	<apex:outputPanel id="cons" styleClass="popup" style="visibility:hidden;" layout="block" title="Related Contacts" >
+                    </apex:outputPanel>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,55 @@
+<apex:page >
+  <html>
+<body>
+<!--<div id="divId"></div>-->
+<script type="text/javascript">
+//Iterates through json string array and retrieves key and obj
+function myFunction() {
+
+  var jsonStringArray = [
+    {
+        "title": "Professional JavaScript",
+        "authors": [
+            "Nicholas C. Zakas"
+        ],
+        edition: 3,
+        year: 2011
+    },
+    {
+        "title": "Professional JavaScript",
+        "authors": [
+            "Nicholas C.Zakas"
+        ],
+        edition: 2,
+        year: 2009
+    },
+    {
+        "title": "Professional Ajax",
+        "authors": [
+            "Nicholas C. Zakas",
+            "Jeremy McPeak",
+            "Joe Fawcett"
+        ],
+        edition: 2,
+        year: 2008
+    }
+];
+    var output ='';
+    for( var index in jsonStringArray ) {
+        var jsonObjects =  jsonStringArray[index];
+         for(var key in jsonObjects){
+             output = output + '<p>'+key+''+jsonObjects[key]+'</p> </br>';
+
+        console.log('key:::'+key);
+    }
+
+    }
+
+return output;
+}
+
+document.getElementById("divId").innerHTML = myFunction();
+</script>
+</body>
+</html>
+</apex:page>

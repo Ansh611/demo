@@ -1,0 +1,73 @@
+<apex:page controller="globalSearch">
+    <script type="text/javascript">
+    function getRecords() {
+        var SearchRecord = document.getElementById('acctSearch').value;
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.globalSearch.searchQuery}',
+            SearchRecord, 
+            function(result, event){
+                // console.log("result",result);
+                // console.log("result",result[0]);
+                var keys = new Array();
+                //console.log("result",typeof(result), typeof(result[0]), typeof(result[0][0]));
+                if(typeof(result)=='object' && typeof(result[0]) =='object' && typeof(result[0][0])=='object'){
+                    keys = Object.keys(result[0][0]);
+                }
+                if(!keys.length)
+                    return false;
+                // console.log("keys", keys);
+                var resultArray = new Array();
+                for(var res in result){
+                    if(typeof(result[res])!='undefined'){
+                        for(var r in result[res]){
+                            // console.log(typeof(result[res][r]));
+                            if(typeof(result[res][r])=='object'){
+                                resultArray.push(result[res][r]);    
+                            }
+                        }
+                    }
+                }
+                console.log("resultArray",resultArray);
+                var table = document.createElement('table');
+                var tr = document.createElement('tr');
+                for(var thi in keys){
+                    var th = document.createElement('th');
+                    if(typeof(keys[thi])=='string'){
+                        var txt = document.createTextNode(keys[thi]);
+                        th.appendChild(txt);
+                        tr.appendChild(th);
+                    }
+                }
+                table.appendChild(tr);
+                for(var ri in resultArray){
+                    var rw = resultArray[ri];
+                    console.log("rw",resultArray[ri]);
+                    if(typeof(rw)=='object'){
+                        var tr = document.createElement('tr');
+                        var strRv = JSON.stringify(rw);
+                        var rvalues = JSON.parse(strRv)
+                        console.log("rvalues",rvalues);
+                        for(var tdv in rvalues){
+                            if(typeof(rvalues[tdv])=='string'){
+                                var td = document.createElement('td');
+                                var txtr =rvalues[tdv];
+                                console.log(txtr);
+                                var txt = document.createTextNode(txtr);
+                                td.appendChild(txt);
+                                tr.appendChild(td);
+                            }
+                        }
+                        table.appendChild(tr);
+                    }
+                }
+                document.getElementById('response').appendChild(table);
+            }, 
+            {escape: true}
+        );
+    }
+    </script>
+    <input id="acctSearch" type="text"/>
+    <button onclick="getRecords()">Get Records</button>
+    <div id="response">
+    </div>
+</apex:page>

@@ -1,0 +1,61 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" id="pageid">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Module</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <apex:stylesheet value="{!URLFOR($Resource.SFSLDS,'assets/styles/salesforce-lightning-design-system-vf.min.css')}" />
+</head>
+    <style>
+     {
+    height: 200px;
+    width: 50%;
+        .slds-docked-form-footer{
+        
+        }
+   
+}
+    </style>
+<body>
+  <!-- REQUIRED SLDS WRAPPER -->
+  <div class="AnshulAppshark">
+<div class="slds-page-header" role="banner">
+  <div class="slds-media">
+    <div class="slds-media__body">
+      <p class="slds-page-header__title slds-truncate" title="Rohde Corp - 80,000 Widgets">Rohde</p>
+      <p class="slds-text-body--small">Mark</p>
+    </div>
+  </div>
+</div>
+       <div class='slds-m-top--small slds-size--2-of-8 slds-small-size--6-of-10 slds-medium-size--1-of-12 slds-text-align--center'>
+      <div class="scrollable" id="scrollpannel1" >
+          <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+      <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+      <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+      <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+      <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+      <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+       <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+       <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+       <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+       <button class="slds-button slds-m-top--xx-large">Button</button><br/>
+       <button class="slds-button slds-m-top--xx-large">Button</button>
+      <div class="slds-docked-form-footer">
+  
+</div>
+  </div>
+    </div>
+      <div class="slds-is-collapsed">
+  <h3>I am collapsed</h3>
+  <p>I am a child inside a collapsed element</p>
+</div>
+<div class="slds-is-expanded">
+  <h3>I am expanded</h3>
+  <p>I am a child inside an expanded element</p>
+</div>
+    </div>
+
+</body>
+</html>
+</apex:page>

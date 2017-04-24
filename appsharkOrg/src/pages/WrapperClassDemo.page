@@ -1,0 +1,35 @@
+<apex:page standardController="Account" extensions="WrapperClassDemo" showHeader="false" sidebar="false"> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+      j$ = jQuery.noConflict();     //fuction for no duplication name in file
+     j$(document).ready( function () {
+         var casetable = j$('[id$="pbt1"]').DataTable({
+            // stateSave: true
+            // serverSide:true
+            /*   $(".add-access").click(addaccessEvent);
+            function addaccessEvent() {
+            var allData = table.rows($(this).parents('tr')).data();
+        }*/
+            "lengthMenu": [[5], [5]]
+            });                   
+            casetable.draw(); 
+     });
+    </script>
+    <apex:form id="fm" >  
+        <apex:pageBlock id="pb" >  
+            <center>
+                <apex:commandButton value="Add Opportunity" action="{!addOpportunity}"/>
+                <apex:commandButton value="Save" action="{!selectedRecords}" rerender="fm"/>
+            </center>
+            <apex:pageBlockTable value="{!wrapperRecordList}" var="wrap" id="pbt1">  
+                <apex:column headerValue="Select">            
+                    <apex:inputCheckbox value="{!wrap.isSelected}" id="inputcheck"/>  
+                </apex:column>  
+                <apex:column value="{!wrap.oppRecord.Name}"/> 
+            </apex:pageBlockTable>  
+
+        </apex:pageBlock>  
+    </apex:form>  
+</apex:page>

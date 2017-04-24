@@ -1,0 +1,94 @@
+<!--Author      : Appshark Developer
+    Date        : 28/9/2016
+    Description : Display Account record with pagination,searching,sorting,checkbox.Multiple check to delete edit and save. 
+    Modification History : -->
+<apex:page controller="WrapperDemo_Con" id="pg1">  
+    <apex:sectionHeader title="Account" subtitle="Records"/>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+    j$ = jQuery.noConflict();     //fuction for no duplication name in file
+    j$(document).ready( function () {
+        var casetable = j$('[id$="pbt1"]').DataTable();                   
+        casetable.draw(); 
+        // var rows = casetable.rows(1).data();
+    });
+    var seletedchk = [];
+    //  console.log(chkCount);
+        function chkBox(i)
+        {
+        var a=i;
+            seletedchk.push(a);
+        }
+        function Edit()	//Function for Edit Button
+    { 
+        var chkCount = seletedchk.length;
+        //var i = chkCount;
+        var a;
+        var ele='pg1:fm1:pb1:pbt1:';
+        for(a=0; a<=chkCount; a++)
+            {
+                var z=seletedchk[a];
+        document.getElementById(ele+seletedchk[a]+":outputName").style.display = "none";
+        document.getElementById(ele+seletedchk[a]+":inputName").style.display = "";
+        document.getElementById(ele+seletedchk[a]+":outputPhone").style.display = "none";
+        document.getElementById(ele+seletedchk[a]+":inputPhone").style.display = "";
+            }
+     }   
+    function cancel()	//Function for cancel Button
+    { 
+        var chkCount = seletedchk.length;
+        //var i = chkCount;
+        var a;
+        var ele='pg1:fm1:pb1:pbt1:';
+        for(a=0; a<=chkCount; a++)
+            {
+                var z=seletedchk[a];
+        document.getElementById(ele+seletedchk[a]+":outputName").style.display = "";
+        document.getElementById(ele+seletedchk[a]+":inputName").style.display = "none";
+        document.getElementById(ele+seletedchk[a]+":outputPhone").style.display = "";
+        document.getElementById(ele+seletedchk[a]+":inputPhone").style.display = "none";
+            }
+     }  
+    function saveContact(contId,ConLstName,ConPhn)//passing record values of Contact for updating 
+    {
+        document.getElementById("pg1:fm1:pb1:inhidden").value=document.getElementById(contId).value; 
+        document.getElementById("pg1:fm1:pb1:inLastName").value=document.getElementById(ConLstName).value;        
+        document.getElementById("pg1:fm1:pb1:inPhone").value=document.getElementById(ConPhn).value; 
+        SavingContact();
+    }    
+    </script>
+    <apex:Form id="fm1">  
+        <apex:actionFunction name="SavingContact" action="{!saveRecord}"/><!--Invokes apex method to update record-->
+        <apex:pageBlock id="pb1">
+           <apex:inputHidden value="{!ParamSave}" id="inhidden"/>
+            <apex:inputHidden value="{!paramLastName}" id="inLastName"/>
+            <apex:inputHidden value="{!paramPhone}" id="inPhone"/>
+            <apex:variable var="i" value="{!0}"/>
+            <center>
+                <apex:commandButton value="Edit" onclick="Edit()" reRender="pbt1"/>
+                <apex:commandButton value="cancel" onclick="cancel()" reRender="pbt1"/>
+                <apex:commandButton value="save" onclick="saveContact('{!$Component.Accid}','{!$Component.inputName}','{!$Component.inputPhone}');return false;"/>
+                <apex:commandButton value="Delete" action="{!deleteRecords}"/>  
+            </center>
+            <apex:pageBlockTable value="{!wrappers}" var="wrap" id="pbt1">  
+                <apex:column headerValue="Select">            
+                    <apex:inputCheckbox value="{!wrap.isSelected}" onclick="chkBox({!i},this);"/>  
+                </apex:column>  
+                <apex:column rendered="false">
+                    <apex:outputField value="{!wrap.myAccount.Id}" id="Accid" style="display:none;"/>
+                </apex:column>
+                <apex:column headerValue="Name">                    
+                    <apex:outputField value="{!wrap.myAccount.name}" id="outputName"/>
+                    <apex:inputField value="{!wrap.myAccount.name}" id="inputName" style="display:none;"/>
+                </apex:column>  
+                <apex:column headerValue="Phone">
+                    <apex:outputField value="{!wrap.myAccount.phone}" id="outputPhone"/>
+                    <apex:inputField value="{!wrap.myAccount.phone}" id="inputPhone" style="display:none;"/>
+                <apex:variable var="i" value="{!i+1}"/>
+                </apex:column>  
+            </apex:pageBlockTable>  
+        </apex:pageBlock>  
+    </apex:Form>  
+</apex:page>

@@ -1,0 +1,14 @@
+<apex:page showHeader="false" sidebar="false">
+    <script>
+    function search1() {
+        var searchStr1 = document.getElementById('txt1').value + '*';
+        window.open('/_ui/search/ui/UnifiedSearchResults?sen=001&sen=003&sen=006&sen=a0B&sen=701&sen=a0G&str=' + encodeURIComponent(searchStr1), "_parent" );
+    }
+    </script>
+    <apex:form id="generalsearch" onsubmit="search1();" onkeypress="">
+        <apex:pageBlock >
+            <b>Record Search : </b>
+            <input type="text" id="txt1" placeholder="Enter Record"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

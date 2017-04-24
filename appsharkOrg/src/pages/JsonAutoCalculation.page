@@ -1,0 +1,66 @@
+<!-- Author: Appshark Developer
+Date : 13/09/2016
+Description : Auto Calculation using Json with Remote Action
+Modification History : ---
+-->
+<apex:page Standardcontroller="Product_list__c" recordSetVar="lstprd" extensions="JsonAutoCalculation" id="pg">
+    <script>
+    // this function calls remoteaction method of controller to perform update operation of account record
+    function saveAcc(rowIndex){
+        var ProductQuant = '';    
+        var ProductPrice = '';    
+        var productotal = '';			
+        var QuantName = '';            // holds quantity value
+        var pdprice = '';          // holds product price value
+        var pdtotal = '';             // holds product total value
+        var prdname = '';  
+        ProductQuant = document.getElementById("pg:fm:pb:pbt:"+rowIndex+":Quant");
+        if(ProductQuant != null){
+            QuantName = ProductQuant.value;
+        }
+        ProductPrice = document.getElementById("pg:fm:pb:pbt:"+rowIndex+":price");
+        if(ProductPrice != null){
+            pdprice = ProductPrice.value;
+        }
+        productotal = document.getElementById("pg:fm:pb:pbt:"+rowIndex+":Total").innerHTML;
+        if(productotal != null){
+            pdtotal = productotal.value;
+        } 
+        productname = document.getElementById("pg:fm:pb:pbt:"+rowIndex+":prd").innerHTML;
+        if(productname != null){
+            prdname = productname.value;
+        }
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.JsonAutoCalculation.updatedproduct}',
+            QuantName,pdprice,pdtotal,prdname,
+            function(result, event) {                    
+            }); 
+    }
+    </script>
+    <apex:form id="fm">
+        <apex:pageBlock id="pb">
+            <!-- intialises row index value -->
+            <apex:variable var="index" value="{!0}"/> 
+          
+            <apex:pageBlockTable value="{!lstprd}" var="objprd" id="pbt">
+                <apex:column headerValue="Product Name">
+                    <apex:outputField value="{!objprd.Name}" id="prd" />
+                </apex:column>
+               <apex:column headerValue="Quantity">
+                    <apex:inputText value="{!objprd.Quantity__c}" id="Quant" />
+                </apex:column>
+                <apex:column headerValue="Price (per product)">
+                    <apex:inputText value="{!objprd.price__c}" id="price" />
+                </apex:column>
+                <apex:column headerValue="Total">
+                    <apex:OutputText value="{!objprd.Total__c}" id="Total"/>
+                    <apex:variable var="index" value="{!index+1}"/>
+               </apex:column> <br/> 
+             </apex:pageBlockTable>
+            <center> grand total <br/><br/>
+            <apex:commandButton value="Generate" id="saveAcc" onClick="saveAcc('{!index}')" reRender="true" />
+            </center>
+            </apex:pageBlock>
+       
+    </apex:form>
+</apex:page>

@@ -1,0 +1,30 @@
+<apex:page standardController="Account" extensions="AccCheckOpp" showHeader="false" sidebar="false">
+    <!-- <apex:commandButton value="Add Opportunity" onclick="winclose();"/>-->
+    <script>
+    /*  function hideFun(){
+        var divOne = document.getElementById('hide');
+        divOne.style.display='none';
+        //alert('hello'); */   
+    }
+    </script>
+    <apex:form >
+        <center>
+            <apex:commandButton value="Add Opportunity" onclick="window.open('https://anshulappshark-dev-ed--anshulappshark.ap2.visual.force.com/apex/pagination?id={!Account.Id}','','scrollbars=no,menubar=no,height=600,width=800,resizable=yes,toolbar=yes,location=yes,status=yes');" oncomplete="hideFun();" />
+        </center>
+      <!--  <div id="hide">-->
+        <apex:pageblock >
+            <apex:pageBlockSection rendered="{!flag}">
+                <center>
+                    <br/>
+                    <H3> No Records to Display</H3>
+                </center>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection rendered="{!flag1}">
+                <center>
+                    <br/>
+                    <H3> Opportunity is present</H3>
+                </center>
+            </apex:pageBlockSection>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

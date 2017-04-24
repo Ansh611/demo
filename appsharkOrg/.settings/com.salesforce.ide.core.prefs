@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+endpointApiVersion=36.0
+endpointEnvironment=Other (Specify)
+endpointServer=login.salesforce.com
+httpsProtocol=true
+ideVersion=36.0
+keependpoint=false
+metadataFormatVersion=36.0
+namespacePrefix=AnshulAppshark
+packageName=unpackaged
+preferToolingDeployment=true
+projectIdentifier=IDE-8926039000301551510
+readTimeout=400
+username=anshul@appshark.com

@@ -1,0 +1,41 @@
+<!-- Author      :- Anshul Deshmukh
+Date        :- 10/08/2016
+Discription :- Search account and display related account list, Click to show related contact, click to show detail page
+Modified by :-              -->
+
+<apex:page Controller="search_account_name_apex" sidebar="false" >  
+    <apex:form id="fm">  
+     
+        <apex:pageBlock title="Enter Account Name">   <!--Block for search Account name, Entered by user-->
+            <apex:inputText value="{!searchstring}"/>
+            <apex:commandButton value="Search" action="{!Search}" />
+        </apex:pageBlock>
+        <apex:pageBlock title="Search Result" >     <!--Block to show Result if entered name == Account Name-->
+            <apex:pageblockTable value="{!lstAcc}" var="a">  
+                <apex:column >  
+                    <apex:commandLink value="{!a.Name}" action="{!showContacts}" rerender="fm">  
+                        <apex:param name="accId" value="{!a.Id}" assignTo="{!recid}"/>
+                    </apex:commandLink>
+                </apex:column>  
+            </apex:pageblockTable>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Display Contacts">  <!--Block to show contact details of Resulted account,If user click over-->
+            <apex:pageblockTable value="{!lstCon}" var="b" id="contactss" >
+                <apex:column >
+                    <apex:commandLink value="{!b.LastName}">  
+                        
+                    </apex:commandLink>
+                </apex:column>
+            </apex:pageblockTable>
+        </apex:pageBlock>
+        
+        
+        <apex:pageBlock title="Contact Details" > <!--Block to show details of contact, If click on any resulted contact-->
+            <apex:outputpanel >First Name=></apex:outputpanel>
+            <apex:outputLabel >{!objCon.Name}</apex:outputLabel>
+        
+</apex:pageBlock>
+
+</apex:form>
+</apex:page>

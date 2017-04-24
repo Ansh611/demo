@@ -1,0 +1,10 @@
+<apex:page >
+    <apex:form >
+        <p id="demo">
+              <script>
+document.getElementById("demo").innerHTML = "My First JavaScript";
+</script> 
+        </p>
+ 
+        </apex:form>
+</apex:page>

@@ -1,0 +1,73 @@
+<!--Author      : Appshark Developer
+    Description : Display and search Account record in table using javascript remote and Jquery templates. 
+    Modification History : -->
+<apex:page controller="testremotingcontroller">
+<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"/>
+<apex:includeScript value="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"/>
+<apex:pageBlock title="Accounts">
+ <!-- Section to draw search field for account -->
+    <apex:pageBlockSection title="Search Accounts" columns="2">
+        <apex:pageBlockSectionItem >
+            Account Name :
+            <input type = "text" id = "accountNameToSearch" />
+            <button onclick="searchAccounts()">Get Account</button>
+          
+        </apex:pageBlockSectionItem>        
+    </apex:pageBlockSection>
+ <!-- result section for showing matching accounts -->
+    <apex:pageBlockSection title="Matching Accounts !" columns="1">
+    <!-- 
+    Created Empty table using the CSS styles of visualforce pageBlockTable 
+    This gives same look and feel 
+    -->
+    <table cellspacing="0" cellpadding="0" border="0" id="searchResults" class="list ">
+        <colgroup span="2"></colgroup>
+        <thead class="rich-table-thead">
+            <tr class="headerRow ">
+                <th colspan="1" scope="col" class="headerRow">Id</th>
+                <th colspan="1" scope="col" class="headerRow"> Name</th>
+                <th colspan="1" scope="col" class="headerRow"> Contact</th>
+                <th colspan="1" scope="col" class="headerRow">Opportunity</th>
+                                            
+            </tr>
+        </thead>
+    <!-- table body left empty for populating via row template using jquery -->
+        <tbody />
+    </table>
+    </apex:pageBlockSection>
+</apex:pageBlock>
+<!-- 
+Create a named jquery template 
+This template represents just a result row, with binding variables for each queried field from account.
+-->
+<script id="resultTableRowTemplate" type="text/x-jquery-tmpl">
+<tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);} " onmouseover="if (window.hiOn){hiOn(this);} " class="dataRow even  first">
+    <td class="dataCell">${Id}</td>
+    <td class="dataCell">${Name}</td>
+    <td class="dataCell">${Contact}</td>
+    <td class="dataCell">${Opportunity}</td>        
+    
+</tr>           
+</script>
+<script type="text/javascript">
+// var t$ = jQuery.noConflict();
+function searchAccounts() {
+    var accountName = $('#accountNameToSearch').val();
+    // clear previous results, if any
+    $("#searchResults tbody").html('');
+    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.testremotingcontroller.searchAccounts}',
+                   accountName, function(result, event){            
+        if (event.status && event.result) {  
+          $.each(event.result, function () {                
+             // for each result, apply it to template and append generated markup
+             // to the results table body.
+             $("#resultTableRowTemplate" ).tmpl(this).appendTo( "#searchResults tbody" );
+          }
+         );            
+        } else {
+           alert(event.message);
+        }
+    }, {escape:true});
+}
+</script>
+</apex:page>

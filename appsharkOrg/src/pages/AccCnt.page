@@ -1,0 +1,16 @@
+<apex:page controller="AccCnt">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>  
+    </head>
+     <apex:form >
+          <div class="form-group">
+            <label for="usr">Account Name</label>
+            <input type="text" class="form-control" id="usr" value = "{!accountName}"/>
+              <apex:actionSupport action="{!opportunityList}" event="onchange"/>
+             
+        </div>
+         <input type="text" class="form-control" id="usr" value = "{!selectedAcc}"/> 
+    </apex:form>
+</apex:page>

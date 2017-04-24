@@ -1,0 +1,41 @@
+<apex:page sidebar="false">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+        <script type="text/javascript">
+            window.onload = function () {
+            // Initialize the map
+            var map = new Microsoft.Maps.Map(
+                document.getElementById("map"),
+                {
+                    credentials: "AtgajVaybzwuhPBNbJ3AT2m02j2rnPeLUd6i4Mv78PbLvuryyP6q2M6m-2m1wE9q",
+                    mapTypeId: Microsoft.Maps.MapTypeId.road
+                }
+            );
+            // Creates a collection to store multiple pins
+            var pins = new Microsoft.Maps.EntityCollection();
+            // Creates 5 random pins
+            for (var i = 0; i < 5; i++){
+                // A random position
+                var position = new Microsoft.Maps.Location(Math.random() * 45, Math.random() * 90);
+                // Creates a Pushpin
+                var pin = new Microsoft.Maps.Pushpin(position);
+                // Adds the pin to the collection instead of adding it directly to the Map
+                pins.push(pin);
+            }
+            // Adds all pins at once
+            map.entities.push(pins);
+        };
+        </script>
+        <style>
+            #map {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+    </body>
+</apex:page>

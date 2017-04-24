@@ -1,0 +1,15 @@
+<apex:page >
+    <apex:form id="myForm">
+        <apex:pageblock id="pb1">
+            <apex:pageblockSection id="pbs1">
+                <apex:inputCheckbox id="checkbox1" label="Check Me" onclick="javascript&colon;getCheckBoxValue();"></apex:inputCheckbox>
+            </apex:pageblockSection>
+        </apex:pageblock>
+    </apex:form>
+    <script language="javascript">
+        function getCheckBoxValue()
+        {
+            alert(document.getElementById('{!$Component.myForm.pb1.pbs1.checkbox1}').checked);   
+        }
+    </script>
+</apex:page>

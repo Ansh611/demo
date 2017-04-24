@@ -1,0 +1,32 @@
+<apex:page >
+    <apex:pagemessages />
+    <script>
+   
+      
+    function openApp(){
+        var twitter='twitter://ost';
+        try
+            {
+            sforce.one.navigateToURL(twitter);
+            }
+        catch(e)
+            {
+           alert("App not installed");
+            }
+        /*  var gospotCheck='gospotcheck://open';
+                try
+                {
+                    sforce.one.navigateToURL(gospotCheck);
+                }
+                catch(e)
+                {
+                    window.location.href = gospotCheck;
+                }*/
+}
+
+    </script>
+    <apex:form >
+          <apex:commandButton value="Facebook" onclick="openApp();"/>
+      <!-- <a href="http://twitter.com/intent/tweet?url=<?php echo $url; ?>&amp;text=<?php echo urlencode($text); ?>" data-applink="twitter://post?url=<?php echo $url; ?>&amp;text=<?php echo urlencode($text); ?>" onClick="openApp(this);">Twitter</a> -->
+    </apex:form>
+</apex:page>

@@ -1,0 +1,35 @@
+<apex:page showHeader="false" >
+<div id="idDiv"></div>
+<script>
+    <!--Array--> 
+var myArray =[{
+        "title": "Professional JavaScript",
+        "authors": [
+            "Nicholas C. Zakas"],edition: 3,year: 2011},
+    {
+        "title": "Professional JavaScript",
+        "authors": [
+            "Nicholas C.Zakas"
+        ],
+        edition: 2,
+        year: 2009
+    },
+    {
+        "title": "Professional Ajax",
+        "authors": [
+            "Nicholas C. Zakas",
+            "Jeremy McPeak",
+            "Joe Fawcett"
+        ],
+        edition: 2,
+        year: 2008
+    }
+];
+
+var jsonData = JSON.parse(myArray);
+for (var i=0; i<jsonData.myArray.length; i++) {
+    var counter = jsonData.myArray[i];
+    console.log(myArray);
+}
+</script>
+</apex:page>

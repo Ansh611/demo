@@ -1,0 +1,8 @@
+<!---  Author:- Anshul Deshmukh
+       Date  :- 22/07/2016
+       Task  :- button on account detail page to create related contact !---> 
+
+
+
+<apex:page standardController="Account" extensions="CreateDetailContactPage_Controller" action="{!contactPage}" sidebar="false">
+</apex:page>

@@ -1,0 +1,153 @@
+<!-- Author: Appshark Developer
+	Date : 26/09/2016
+	Description : Auto calculation using Json with Remote action
+	Modification History : -->
+<apex:page Controller="Auto_calculation_controller" id="pg" tabStyle="Product_list__c">
+    <apex:pageMessages ></apex:pageMessages>
+    <script>
+    var Quantity_Total = 0;
+    var price_Total = 0;
+    var grand_Total = 0;
+    var leng = 0;
+    window.onload = function() { //this function will call after page loaded
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.Auto_calculation_controller.getProduct_list}',
+                function(result, event) {
+                    if (event.status) {
+                        leng = result.length;
+                        var Tables = document.createElement("table"); //creating table
+                        var Table_header = document.createElement("thead"); //Header of the table
+                        var Table_row = document.createElement("tr"); // Creating table row
+                        var cell_Name = document.createElement("th"); //Creating header cell
+                        Table_row.appendChild(cell_Name);
+                        cell_Name.appendChild(document.createTextNode(''));
+                        var Table_Quantity = document.createElement("th");
+                        Table_Quantity.appendChild(document.createTextNode('Quantity'));
+                        Table_row.appendChild(Table_Quantity);
+                        var Table_price = document.createElement("th");
+                        Table_price.appendChild(document.createTextNode('Price'));
+                        Table_row.appendChild(Table_price);
+                        var Table_total = document.createElement("th");
+                        Table_total.appendChild(document.createTextNode('Total'));
+                        Table_row.appendChild(Table_total);
+                        Table_header.appendChild(Table_row);
+                        Tables.appendChild(Table_header);
+                        var Table_body = document.createElement("tbody");
+                        document.getElementById('table').innerHTML = "";
+                        for (var i = 0; i < leng; i++) {  //creating table
+                            var objProds = result[i];
+                            var row = document.createElement("tr"); //Creating table row
+                            var cell_Name = document.createElement("td");
+                            var cell_Text = document.createTextNode(objProds.Name == undefined ? "" : objProds.Name);
+                            cell_Name.appendChild(cell_Text);
+                            row.appendChild(cell_Name);
+                            var cell_Quantity = document.createElement("td");
+                            var Quantity_element = document.createElement("input");
+                            Quantity_element.setAttribute("type", 'text');
+                            Quantity_element.setAttribute("onblur", "calculate()");
+                            Quantity_element.setAttribute("value", objProds.Quantity__c);
+                            Quantity_element.setAttribute("id", 'quantity' + '_' + i);
+                            cell_Quantity.appendChild(Quantity_element);
+                            row.appendChild(cell_Quantity);
+                            var cell_Price = document.createElement("td");
+                            var Price_Element = document.createElement("input");
+                            Price_Element.setAttribute("type", 'text');
+                            Price_Element.setAttribute("onblur", "calculate()");
+                            Price_Element.setAttribute("value", objProds.price__c);
+                            Price_Element.setAttribute("id", 'price' + '_' + i)
+                            cell_Price.appendChild(Price_Element);
+                            row.appendChild(cell_Price);
+                            var cell_Total = document.createElement("td");
+                            var total_Element = document.createElement("label");
+                            total_Element.innerHTML = objProds.Grand_Total__c;
+                            total_Element.setAttribute("id", 'total' + '_' + i);
+                            cell_Total.appendChild(total_Element);
+                            row.appendChild(cell_Total);
+                            Table_body.appendChild(row);
+                        }
+                        var total_Row = Grand_Total();
+                        Table_body.appendChild(total_Row);
+                        //appending table body  to tableand setting the table attributes 
+                        Tables.appendChild(Table_body);
+                        //Appending the table to div tag in the page  
+                        document.getElementById('table').appendChild(Tables);
+                    } else if (event.type === 'exception') {
+                        console.log("exception");
+                    }
+                });
+        }
+        // Create grand total row 
+    function Grand_Total() {
+        var total_Row = document.createElement("tr");
+        var header_cell = document.createElement("td"); //Creating header cell
+        total_Row.appendChild(header_cell);
+        //CreateTextNode is used to display the text we wanted in each cell
+        header_cell.appendChild(document.createTextNode('Grand Total'));
+        var Quantity_Cell = document.createElement("td");
+        var Quantity_Element = document.createElement("label");
+        Quantity_Element.innerText = Quantity_Total;
+        Quantity_Element.setAttribute("id", 'qt');
+        Quantity_Cell.appendChild(Quantity_Element);
+        total_Row.appendChild(Quantity_Cell);
+        var price_Cell = document.createElement("td");
+        var price_Element = document.createElement("label");
+        price_Element.innerText = price_Total;
+        price_Element.setAttribute("id", 'sp');
+        price_Cell.appendChild(price_Element);
+        total_Row.appendChild(price_Cell);
+        var total_Cell = document.createElement("td");
+        var Table_Element = document.createElement("label");
+        Table_Element.innerText = grand_Total;
+        Table_Element.setAttribute("id", 'gt');
+        total_Cell.appendChild(Table_Element);
+        total_Row.appendChild(total_Cell);
+        return total_Row;
+    }
+    function calculate() { //for total calculate 
+        Quantity_Total = 0;
+        price_Total = 0;
+        grand_Total = 0;
+        for (var i = 0; i < leng; i++) {
+            var Quantity_Value = document.getElementById('quantity' + '_' + i).value; // holds quantity value
+            var Price_Value = document.getElementById('price' + '_' + i).value; //holds selling price value
+            var qutVal = Number(Quantity_Value);
+            var sval = Number(Price_Value);
+            
+            if (!numValidate(sval)){
+                document.getElementById('price' + '_' + i).focus();
+                
+            }
+            else if(!numValidate(qutVal)) {
+                document.getElementById('quantity' + '_' + i).focus();
+               
+            }
+            else{
+                var total = qutVal * sval; // total price of particular product
+                document.getElementById('total' + '_' + i).innerText = total;
+                Quantity_Total += qutVal;
+                price_Total += sval;
+                grand_Total += Number(total);
+            }
+        }
+        document.getElementById('qt').innerText = Quantity_Total;
+        document.getElementById('sp').innerText = price_Total;
+        document.getElementById('gt').innerText = grand_Total;
+        //return true;
+    }
+    function numValidate(value) {
+        if (isNaN(value) || value < 0) {
+            alert('please enter number only');
+            return false;
+        } else
+            return true;
+    }
+    </script>    
+    <apex:form >
+        <apex:sectionHeader title="Price" subtitle="Auto-Calculation"/>        
+        <apex:pageBlock >
+            <div id="table" align="center">
+                <!-- products list is displayed here. -->
+            </div> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

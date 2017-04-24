@@ -1,0 +1,9 @@
+<apex:page >
+ 
+    <script>
+    
+    </script>
+     <apex:form id="demo">
+    
+     </apex:form>
+</apex:page>

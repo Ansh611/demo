@@ -1,0 +1,86 @@
+<apex:page showHeader="false" Controller="ContactsController">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js">
+    </script>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <script type="text/javascript">
+    var app = angular.module('MyApp',[]);  
+    app.factory('VFRemotingFactory',function($q,$rootScope){  
+        var factory = {};  
+        factory.getData = function(searchText){  
+            var deferred = $q.defer();  
+            GetAllContactsByFilter(function(result){  
+                $rootScope.$apply(function(){  
+                    deferred.resolve(result);  
+                });  
+            }, searchText);  
+            return deferred.promise;  
+        }  
+        return factory;  
+    });
+    function GetAllContactsByFilter(callback, searchText){  
+        if(searchText == undefined)
+        {
+            searchText = '';
+        }
+        Visualforce.remoting.Manager.invokeAction(  
+            '{!$RemoteAction.ContactsController.GetAllContactsByFilter}', searchText,
+            callback,  
+            {escape: false}  
+        );
+    }
+    app.controller('myController',function($scope,VFRemotingFactory){  
+        $scope.mcm = {};
+        $scope.getFilteredData = function($event){
+            if($scope.mcm.searchText.length > 1)
+            {
+                var searchTxt = $scope.mcm.searchText;
+                VFRemotingFactory.getData(searchTxt).then(function(result){  
+                    $scope.ContactData = result;  
+                });
+            }
+            else
+            {
+                var searchTxt = $scope.mcm.searchText;
+                VFRemotingFactory.getData().then(function(result){  
+                    $scope.ContactData = result;  
+                });
+            }
+        };
+        $scope.Prafull = {};        
+        VFRemotingFactory.getData().then(function(result){  
+            $scope.ContactData = result;  
+        });  
+    });
+    
+    </script>
+    <div ng-app="MyApp">
+        <div ng-controller="myController">
+            <label>Search: <input ng-model="mcm.searchText" ng-keyup="getFilteredData($event)"/></label>
+            <table class="table" id ="pbt1">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Title</th>
+                        <th>Account Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="contactVar in ContactData">
+                        <td>{{contactVar.FirstName}}</td>
+                        <td>{{contactVar.LastName}}</td>
+                        <td>{{contactVar.Phone}}</td>
+                        <td>{{contactVar.Email}}</td>
+                        <td>{{contactVar.Title}}</td>
+                        <td>{{contactVar.Account.Name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</apex:page>

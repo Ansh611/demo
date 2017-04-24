@@ -1,0 +1,46 @@
+<apex:page >  
+    <link href="{!URLFOR($Resource.jQuery,'Collapsible-Data-Grid-Plugin-With-jQuery-Treegrid/dist/css/jquery.treegrid.css')}" rel="stylesheet"/>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="{!URLFOR($Resource.jQuery,'Collapsible-Data-Grid-Plugin-With-jQuery-Treegrid/dist/js/jquery.treegrid.min.js')}"></script>
+    <script>
+      var  $j = jQuery.noConflict();     //fuction for no duplication name in file
+    $j(document).ready( function () {
+    $j('.tree').treegrid();
+     });
+    </script>
+    <style>
+tr:hover {background-color: #f5f5f5}
+
+</style>
+    <form>
+   <div class="container">
+  <div class="row">
+     <div class="col-sm-8" style="border-right:solid 2px;border-bottom:solid 2px;">
+           <span style="font-weight:bold;">DISTRIBUTIONS</span>
+    <table class="tree">
+  <tbody>
+       <td style="padding: 5px;">
+    <tr class="treegrid-1 expanded"><td>Root node</td><td>Additional info</td></tr>
+    <tr class="treegrid treegrid-parent-1"><td>Node 1-1</td><td>Additional info</td></tr>
+    <tr class="treegrid-3 treegrid-parent-1"><td>Node 1-2</td><td>Additional info</td></tr>
+    <tr class="treegrid-4 treegrid-parent-3"><td>Node 1-2-1</td><td>Additional info</td></tr>
+    <tr class="treegrid-5 treegrid-parent-3"><td>Node 1-2-2</td><td>Additional info</td></tr>
+    <tr class="treegrid-6"><td>Root node</td><td>Additional info</td></tr>
+    <tr class="treegrid-7 treegrid-parent-6"><td>Node 2-1</td><td>Additional info</td></tr>
+            </td>
+      
+  </tbody>
+</table>
+         </div>
+        
+             <div class="col-sm-4" style="border-bottom:solid 2px;">
+            
+              <table class="table table-hover">
+            <span style="font-weight:bold;">CONTACTS</span>
+           </table>
+                 </div>
+        
+   </div>
+  </div>
+        </form>
+</apex:page>

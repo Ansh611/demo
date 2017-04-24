@@ -1,0 +1,13 @@
+<apex:page standardController="Account">
+<apex:pageBlock >
+    <apex:pageBlockSection columns="4">
+        <apex:pageBlockTable value="{!Account}" var="a">
+            <apex:column headerValue="test"/>
+        </apex:pageBlockTable>
+        <apex:pageBlockTable value="{!Account}" var="b">
+            <apex:column headerValue="test"/>
+        
+        </apex:pageBlockTable>        
+    </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:page showHeader="false" standardStylesheets="false" controller="fullCalendar" >
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.css" rel="stylesheet" media="print"  />
+    <body>             
+   <script type="text/javascript"> 
+   $(document).ready(function() {  
+			//Call the fullCallendar method. You can replace the '#calendar' with the ID of the dom element where you want the calendar to go.
+			$('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				editable: false,
+				events:
+				[
+					//At run time, this APEX Repeat will reneder the array elements for the events array
+					<apex:repeat value="{!events}" var="e">
+						{
+							title: "{!e.title}",
+							start: '{!e.startString}',
+							end: '{!e.endString}',
+							url: '{!e.url}',
+							allDay: {!e.allDay},
+							className: '{!e.className}'
+						},
+					</apex:repeat>
+				]
+			});
+			 
+		});
+    </script>
+    <div id="calendar"></div>
+    </body>
+</apex:page>

@@ -1,0 +1,59 @@
+<!--
+Discription -: Search Account and display related contact and opportunity
+Date -: 30/12/16
+-->
+<apex:page controller="ContactPicklistCont" showHeader="true" sidebar="false">
+        <!--<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">-->
+            <head>
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>  
+            
+    <script>
+                /*function getcont(){
+                actionfun();
+                }*/
+    function getcontopp(id){
+        // alert(id);
+    myactionfun(id);
+    }
+    </script>
+                </head>
+                <apex:form id="fm" > 
+                        <div class="Container">
+                           <!--  <apex:actionFunction name="actionfun"  action="{!getcont}" reRender="page">
+                                  </apex:actionFunction>-->
+                            <apex:actionFunction name="myactionfun"  action="{!getcontoppo}" reRender="OP">
+                            	<apex:param assignTo="{!recid}" name="recId" value=""  />
+                            </apex:actionFunction>
+                                    <div class="form-group">
+                                        <!--  <input type="text" class="form-control" id="usr" value = "{!accountName}"/>-->
+                                        Enter Account Name<br/>
+                                        <apex:inputText value="{!accountName}" />
+                                        <apex:commandButton value="Search" action="{!getcont}" />
+                                    </div>
+                                    <input type ="button" data-toggle="collapse" data-target="#demo" value="Contact >" onclick="getcont()" id="page"></input>
+                            <div id="demo" class="collapse">
+                                <apex:variable var="count" value="{!0}" />
+                                <apex:repeat value="{!contactList}" var="a" id="theRepeat">
+                                    
+                                    <input type ="button"  data-toggle="collapse" data-target="#innerdemo" value="{!a.name} " onclick="getcontopp('{!a.Id}')"></input><br/>
+                                
+                            </apex:repeat>
+                    <apex:outputPanel id="OP">
+                        <apex:repeat value="{!LstcntOppo}" var="a" >
+                            <apex:outputText value="{!a.Name}"></apex:outputText><br/>
+                        </apex:repeat>
+                    </apex:outputPanel>
+                        </div><br/>
+                        <input type = "button" data-toggle="collapse" data-target="#demoo" value="Opportunity "></input>
+                    <div id="demoo" class="collapse">
+                        <apex:pageBlock id="PB">
+                            <apex:pageBlockTable value="{!LstOppo}" var="a" >
+                                <apex:column value="{!a.Name}"/>
+                            </apex:pageBlockTable>
+                        </apex:pageBlock>
+                    </div>
+                </div>
+            </apex:form>
+</apex:page>

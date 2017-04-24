@@ -1,0 +1,19 @@
+<apex:page standardController="Contact">
+<apex:form >
+<apex:pageBlock >
+<apex:pageBlockSection columns="1">  
+    <apex:inputfield value="{!Contact.Department}"/>  
+
+    <apex:pageBlockSectionItem >
+        <apex:outputLabel value="Name" for="first" />
+        <apex:panelGrid columns="2">
+            <apex:inputfield value="{!Contact.FirstName}" id="first"/>
+            <apex:inputfield value="{!Contact.Birthdate}"/>
+        </apex:panelGrid>
+    </apex:pageBlockSectionItem>
+
+    <apex:inputfield value="{!Contact.Title}"/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

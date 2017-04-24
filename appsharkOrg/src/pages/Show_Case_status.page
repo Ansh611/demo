@@ -1,0 +1,89 @@
+<!--  Author : Appshark Developer
+      Date : 13/9/2016
+      Description : Auto calculation using Json with Remote action test class
+      Modification History : -->
+ <apex:page Controller="show_case_status">
+ <script>
+    	var len=0;
+         Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.show_case_status.getcase_list}',
+                function(result, event) 
+             { 			
+                    if (event.status) 
+                    {
+						var Tables = document.createElement("table"); //creating table
+                        var Table_header = document.createElement("thead"); //Header of the table
+                        var Table_row = document.createElement("tr"); // Creating table row
+                        var cell_Name = document.createElement("th"); //Creating header cell
+                        Table_row.appendChild(cell_Name);
+                        cell_Name.appendChild(document.createTextNode(''));
+                        var Table_Status = document.createElement("th");
+                        Table_Status.appendChild(document.createTextNode('Status'));
+                        Table_row.appendChild(Table_Status);
+                        var Table_Subject = document.createElement("th");
+                        Table_Subject.appendChild(document.createTextNode('Subject'));
+                        Table_row.appendChild(Table_Subject);
+                        var Table_Start_Date = document.createElement("th");
+                        Table_Start_Date.appendChild(document.createTextNode('Start Date'));
+                        Table_row.appendChild(Table_Start_Date);
+                        var Table_Close_Date = document.createElement("th");
+                        Table_Close_Date.appendChild(document.createTextNode('Close Date'));
+                        Table_row.appendChild(Table_Close_Date);
+                        Table_header.appendChild(Table_row);
+                        Tables.appendChild(Table_header);
+                        
+                        leng = result.length;
+                        var Table_body = document.createElement("tbody");
+                        for(var i=0; i<len; i++){
+                          var caseData = result[i]; 
+                            var row = document.createElement("tr"); //Creating table row
+                            var cell_Name = document.createElement("td");
+                            var cell_Text = document.createTextNode(caseData.Status);
+                            cell_Name.appendChild(cell_Text);
+                            row.appendChild(cell_Name);
+                            
+                        }
+                        document.getElementById('container').appendChild(ListVariable);
+                     }
+              });  
+        
+                           
+         /*  var chkbox1 = document.createElement("input"); 
+          var chkbox2 = document.createElement("input"); 
+          var chkbox3 = document.createElement("input"); 
+          var lbl1 = document.createElement("label"); 
+          var lbl2 = document.createElement("label"); 
+          var lbl3 = document.createElement("label"); 
+          chkbox1.setAttribute("type", "checkbox");
+          chkbox2.setAttribute("type", "checkbox");
+          chkbox3.setAttribute("type", "checkbox");
+          lbl1.innerText="New";
+          lbl1.appendChild(chkbox1);
+          lbl2.innerText="Working";
+          lbl2.appendChild(chkbox2);
+  		  lbl3.innerText="Escalated";
+          lbl3.appendChild(chkbox3);     
+         
+         document.getElementById('container').appendChild(lbl1);
+         document.getElementById('container').appendChild(lbl2);
+         document.getElementById('container').appendChild(lbl3);*/
+           
+        
+         
+     
+ </script>
+
+
+
+     <apex:form >
+     <apex:pageBlock id="block">
+         <div id="container">
+             </div>
+         
+
+
+         
+     </apex:pageBlock>
+     </apex:form>
+
+</apex:page>

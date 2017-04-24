@@ -1,0 +1,26 @@
+<apex:page controller="MultiRow" >
+	<apex:form >
+		<apex:pageblock >
+			<apex:pageBlockButtons >
+				<apex:commandButton value="Save" action="{!Save}" />
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection columns="1">
+				<apex:dataTable value="{!Contacts}" var="c" border="1" rowClasses="odd,even" styleClass="tableClass" cellpadding="3">
+					<apex:column >
+						<apex:facet name="header">Actions</apex:facet>
+						<apex:inputCheckbox value="{!c.Checked}"/>
+						<apex:commandLink value="Full Edit" action="{!URLFOR($action.Contact.Edit, c.ID)}" target="_blank" />
+					</apex:column>
+					<apex:column >
+						<apex:facet name="header">Name</apex:facet>
+						<apex:outputText value="{!c.Name}"/>
+					</apex:column>
+					<apex:column >
+						<apex:facet name="header">Email</apex:facet>
+						<apex:inputText value="{!c.Email}" />
+					</apex:column>
+				</apex:dataTable>
+			</apex:pageBlockSection>
+		</apex:pageblock>
+	</apex:form>
+</apex:page>

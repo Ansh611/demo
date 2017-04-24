@@ -1,0 +1,27 @@
+<apex:page standardController="Account" recordSetVar="Accounts" sidebar="false" >
+
+<apex:sectionHeader title="My Accounts" subtitle="Account Management"/>
+    <apex:form >
+        <apex:pageBlock >
+          <apex:pageMessages id="error" />
+            <apex:panelGrid columns="7" id="buttons">
+                <apex:commandButton reRender="error,blocktable,buttons" action="{!Save}" value="Save"/>
+                <apex:commandButton reRender="error,blocktable,buttons" action="{!Cancel}" value="Cancel"/>
+                <apex:inputHidden />
+                <apex:commandButton reRender="error,blocktable,buttons" disabled="{!!hasprevious}" action="{!First}" value="First"/>
+                <apex:commandButton reRender="error,blocktable,buttons" disabled="{!!hasprevious}" action="{!Previous}" value="Previous"/>
+                <apex:commandButton reRender="error,blocktable,buttons" disabled="{!!hasnext}" action="{!Next}" value="Next"/>
+                <apex:commandButton reRender="error,blocktable,buttons" disabled="{!!hasnext}" action="{!Last}" value="Last"/>
+            </apex:panelGrid>
+            <apex:pageBlockSection id="blocktable" >
+                <apex:pageBlockTable value="{!Accounts}" var="t">
+                    <apex:column headerValue="Account" value="{!t.Name}" />
+
+                    <apex:inlineEditSupport event="onClick"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>   
+           
+           
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

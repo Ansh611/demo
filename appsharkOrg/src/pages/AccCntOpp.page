@@ -1,0 +1,29 @@
+<apex:page controller="ContactPicklistCont">
+    <apex:form >
+        <apex:pageBlock title="Contact Detail">
+            <apex:pageblockSection >
+                
+                <apex:pageblockSectionItem >
+                    <b>Contacts:</b>
+                    <br />
+                    <apex:selectList value="{!selectedCon}" size="1">
+                        <apex:selectOptions value="{!Contacts}"></apex:selectOptions>
+                        <apex:actionSupport action="{!opportunityList}" event="onchange" />
+                    </apex:selectList>
+                </apex:pageblockSectionItem>
+                <apex:pageblockSectionItem >
+                    <b>Opportunities:</b>
+                    <br />
+                    <apex:selectList value="{!selectedOpp}" size="1">
+                        <apex:selectOptions value="{!oppList}"></apex:selectOptions>
+                    </apex:selectList>
+                </apex:pageblockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <b>Account Name:</b>
+                    <br />
+                    <apex:outputText value="{!selectedAcc}"></apex:outputText>
+                </apex:pageblockSectionItem>
+            </apex:pageblockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

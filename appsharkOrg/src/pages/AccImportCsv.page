@@ -1,0 +1,6 @@
+<apex:page Controller="AccImportCsv" contentType="text/csv#filename.csv" sidebar="false"  language="en-US">
+  Account Name,"Account Id","Billing City","Website"
+    <apex:repeat value="{!LstAcc}" var="LA">
+        {!LA.Name},"{!LA.id}","{!LA.billingCity}","{!LA.Website}"
+    </apex:repeat>
+</apex:page>

@@ -1,0 +1,16 @@
+<apex:page controller="apex_test_mouseover">
+    <script>
+    </script>
+       <apex:form id="fm">
+        <apex:pageBlock id="pb">
+            <apex:pageBlockTable value="{!lstAcc}" var="a" onRowMouseOver="onhover(this)" onRowMouseOut="mouseout(this)" id="pbt">		<!--get list of Accounts to be displayed on page block Table-->
+                <apex:column >
+                    <apex:outputLabel >{!a.name}</apex:outputLabel>																		<!--display Account Names -->
+                	<apex:outputPanel style="display:none" id="accId">{!a.id}</apex:outputPanel>
+                	<apex:outputPanel id="cons" styleClass="popup" style="visibility:hidden;" layout="block" title="Related Contacts" >
+                    </apex:outputPanel>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

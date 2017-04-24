@@ -1,0 +1,48 @@
+<apex:page standardController="Case">
+<apex:pageBlock id="thePageblock" >
+<apex:pageBlockSection id="thePageblockSec" >   
+<apex:pageBlockSectionItem id="pageBlocksec">
+    <apex:outputLabel id="outputLab">Status</apex:outputLabel>
+     <apex:form id="frm">                    
+    <apex:inputField id="picklistValues" value="{!case.status}" required="true"/>
+     </apex:form>
+
+</apex:pageBlockSectionItem>
+</apex:pageBlockSection>
+</apex:pageBlock>
+
+   <script>
+
+window.onload = function myFunction() {
+
+var selectobject=document.getElementById('{!$Component.thePageblock.thePageblockSec.pageBlocksec.frm:picklistValues}');
+  for (var i=0; i<selectobject.length; i++){
+
+      /* if (selectobject.options[i].value == 'New' ){
+
+     selectobject.remove(i);
+
+     }
+
+    if (selectobject.options[i].value == 'Working' ){
+
+     selectobject.remove(i);
+
+     }
+
+     if (selectobject.options[i].value == 'Escalated' ){
+
+     selectobject.remove(i);
+
+     }*/
+
+  }
+
+
+}
+
+</script>
+
+
+
+</apex:page>

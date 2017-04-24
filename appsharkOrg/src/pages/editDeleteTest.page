@@ -1,0 +1,62 @@
+<!--
+ Author 		: Appshark Developer
+ Date 			: 19/07/2016
+ Description 	: Create VF page to show list of Leads, and with Edit button.
+                  Edit button should enable all the Field In Editable Mode.
+ Last Modified History :
+-->
+<apex:page id="pg1" standardController="Lead"  recordSetVar="lstLead" tabStyle="Lead">
+    <script>        
+    	function Edit(i)												//Function for Edit Button
+        { 
+              var ele='pg1:fm1:pb1:pbt1:';
+              document.getElementById(ele+i+":opId").style.display = "none";
+              document.getElementById(ele+i+":ipId").style.display = "";
+              document.getElementById(ele+i+":opIdEmail").style.display = "none";
+              document.getElementById(ele+i+":ipIdEmail").style.display = "";
+              document.getElementById(ele+i+":opIdPhone").style.display = "none";
+              document.getElementById(ele+i+":ipIdPhone").style.display = "";
+              document.getElementById(ele+i+":save").style.display = "";
+              document.getElementById(ele+i+":cancel").style.display = "";
+              document.getElementById(ele+i+":Edit").style.display = "none";              
+        }
+        function Cancel(i)												//Function for Cancel Button
+        {     
+            var ele2='pg1:fm1:pb1:pbt1:';
+            document.getElementById(ele2+i+":opId").style.display = "";
+            document.getElementById(ele2+i+":ipid").style.display = "none";
+            document.getElementById(ele2+i+":opIdEmail").style.display = "";
+            document.getElementById(ele2+i+":ipIdEmail").style.display = "none";
+            document.getElementById(ele2+i+":ipIdPhone").style.display = "none";
+            document.getElementById(ele2+i+":opIdPhone").style.display = "";
+            document.getElementById(ele2+i+":save").style.display = "none";
+            document.getElementById(ele2+i+":cancel").style.display = "none";
+            document.getElementById(ele2+i+":Edit").style.display = "";
+        }
+    </script>    
+	<apex:form id="fm1">
+        <apex:pageBlock title="Leads" id="pb1"> 
+        <apex:variable var="i" value="{!0}"/>        
+            <apex:pageBlockTable id="pbt1" value="{!lstLead}" var="objLead">
+                <apex:column headerValue="Action" >                 
+                	<apex:commandButton value="Edit" id="Edit" onclick="Edit('{!i}');return false;"/>
+                    <apex:commandButton value="save" id="save" style="display:none" action="{!Save}"/>
+                    <apex:commandButton value="cancel" id="cancel" style="display:none" onclick="Cancel('{!i}');return false;"/>
+                </apex:column>
+            	<apex:column >
+                	<apex:inputField value="{!objLead.LastName}" id="ipId" style="display:none;"/>
+                	<apex:outputField value="{!objLead.LastName}" id="opId" />                
+            	</apex:column>
+            	<apex:column >
+                	<apex:inputField value="{!objLead.Email}" id="ipIdEmail" style="display:none;"/>
+                	<apex:outputField value="{!objLead.Email}" id="opIdEmail" />                
+            	</apex:column>
+            	<apex:column >
+                	<apex:inputField value="{!objLead.Phone}" id="ipIdPhone" style="display:none;"/>
+                	<apex:outputField value="{!objLead.Phone}" id="opIdPhone" />
+                	<apex:variable var="i" value="{!i+1}"/>
+            	</apex:column>
+            </apex:pageBlockTable>          
+      	</apex:pageBlock>      
+	</apex:form> 
+</apex:page>

@@ -1,0 +1,25 @@
+<apex:page StandardController="Contact" extensions="RowEditingcontroller">
+    <apex:pageMessages />
+    <apex:form id="theForm">
+        <apex:pageBlock Title="CONTACTS">
+            <apex:commandButton value="Save" action="{!tosave}" id="saveButton"  />
+            <apex:outputPanel style="float:middle">
+                <apex:pageBlockTable value="{!Contacts}" var="c" cellpadding="2" border="1"  rowClasses="odd,even" styleClass="tableClass" id="opp_table">
+                    <apex:column headerValue="All contact Name" >
+                        <apex:inputcheckbox value="{!c.selected}">
+                            <apex:actionSupport event="onclick" action="{!getSelected}" rerender="Selected_PBS"/>
+                        </apex:inputcheckbox>&nbsp;
+                        <b><apex:outputField value="{!c.con.Name}"/> </b>    
+                    </apex:column>
+                    <apex:column headerValue="Contact No" > 
+                        <apex:outputfield value="{!c.con.MobilePhone}" /> 
+                    </apex:column>
+                    <apex:column headerValue="Email"> 
+                        <apex:outputField value="{!c.con.Email}"/>                       
+                    </apex:column>
+                    <apex:inlineEditSupport event="ondblClick"  showOnEdit="saveButton"/>
+                </apex:pageBlockTable>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

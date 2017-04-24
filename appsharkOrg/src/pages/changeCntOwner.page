@@ -1,0 +1,32 @@
+<apex:page standardController="Contact" recordSetVar="Contacts" id="updateOwnerPage">
+    <apex:form >
+        <apex:sectionheader title="Change Owner for Contacts"/>
+        <apex:pageblock mode="edit">
+            <apex:pagemessages />
+            <apex:pageblocksection title="Change" columns="1">
+                <apex:pageblocksectionitem > 
+                    <apex:outputlabel for="owner">New Owner</apex:outputlabel>
+                    <apex:inputfield id="owner" value="{!Contact.OwnerId}"/>
+                </apex:pageblocksectionitem>
+            </apex:pageblocksection>
+            <apex:pageblocksection title="Selected Contacts" columns="1">
+                <apex:pageblocktable value="{!selected}" var="j" width="100%">
+                    <apex:column >
+                        <apex:facet name="header">Contact Name</apex:facet>
+                        <apex:outputlink value="{!URLFOR($Action.Contact.View, j.id)}">
+                            {!j.FirstName} {!j.LastName}
+                        </apex:outputlink>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Current Owner</apex:facet>
+                        {!j.Owner.Name}
+                    </apex:column>
+                </apex:pageblocktable>
+            </apex:pageblocksection>
+            <apex:pageblockbuttons location="bottom">
+                <apex:commandbutton value="Save" action="{!save}"/>
+                <apex:commandbutton value="Cancel" action="{!cancel}"/>
+            </apex:pageblockbuttons>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

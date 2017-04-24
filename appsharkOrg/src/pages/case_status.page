@@ -1,0 +1,92 @@
+<!--  Author : Appshark Developer
+      Date : 15/9/2016
+      Description : display case record when check on status checkbox, shows records accordingly 
+      Modification History : -->
+<apex:page controller="case_status" id="pg">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+    j$ = jQuery.noConflict();     //fuction for no duplication name in file
+			j$(document).ready( function () {
+                var casetable = j$('[id$="caseTable"]').DataTable();
+                   j$('#new, #closed,#working,#escalated').change( function() {
+                   casetable.draw();
+                   } );
+			});  
+    
+    function showHide(obj){
+                var arr=[];
+        /* var inputelement= document.getElementById(obj).value;
+        if(inputelement.checked==true)
+        {
+        	alert('string'+inputelement);
+        }
+        else
+        {
+        	alert('Not Checked');
+        }*/
+        
+        //var checkedValue = document.getElementById('new').checked;
+                  
+            if(!document.getElementById('new').checked);
+        			{
+                       
+                      $("#new").hide(); 
+                    }
+                if(!document.getElementById('closed').checked);
+        {
+                       
+                      $("#closed").hide(); 
+                    }
+                if(!document.getElementById('working').checked) arr.push("Working");
+                if(!document.getElementById('escalated').checked) arr.push("Escalated");
+                console.log(arr);
+        //                document.getElementById("caseTable").contains(span);
+        // j$('td:contains("Working")').parent('tr').css('background-color','red');
+                 
+        //j$('td:contains("Closed")').parent().toggle();
+		
+      }             
+    j$.fn.dataTable.ext.search.push(  /* function( settings, data, dataIndex ) {
+        
+        var age = parseFloat( data[3] ) || 0; // use data for the age column
+ 
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+             ( isNaN( min ) && age <= max ) ||
+             ( min <= age   && isNaN( max ) ) ||
+             ( min <= age   && age <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }*/);
+    </script>
+   <apex:form id="fm">
+    <apex:pageBlock id="pb" >
+    <!--apex:inputCheckbox title="new" id="New" selected="true"/-->  
+        <apex:inputCheckbox id="new" onclick="showHide('{!$Component.new}')"/>New
+        <input type="checkbox" id="closed" checked="true" onclick="showHide()"/>Closed
+        <input type="checkbox" id="working" checked="true" onclick="showHide()"/>Working
+        <input type="checkbox" id="escalated" checked="true" onclick="showHide()"/>Escalated
+        <table id="caseTable" class="display">
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Subject</th>
+                    <th>Case Number</th>
+				</tr>
+			</thead>
+			<tbody>
+				<apex:repeat value="{!lstcase}" var="c">
+					<tr>
+						<td>{!c.status}</td>
+						<td>{!c.Subject}</td>
+						<td>{!c.CaseNumber}</td>
+					</tr>
+				</apex:repeat>
+			</tbody>
+		</table>
+     </apex:pageBlock>
+    </apex:form>
+</apex:page>

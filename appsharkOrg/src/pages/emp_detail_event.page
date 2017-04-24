@@ -1,0 +1,34 @@
+<!-- Author:-Anshul Deshmukh,
+*    Date:-16/08/16,
+*    Description:- It displays company Total events completed, upcoming events and events cancelled. 
+*    Modification History:-->
+<apex:page standardController="Employee__c" extensions="company_events_detail" tabStyle="Employee__c" >
+    <apex:form id="fm">
+        <apex:pageBlock title="EVENT DETAILS">
+            <apex:selectList value="{!intSelectedYear}" size="1">            
+                <apex:outputLabel value="Select Year :" />&nbsp;&nbsp;
+                <apex:selectOptions value="{!Years}"/>            
+            </apex:selectList><br/>
+        </apex:pageBlock>
+        
+        <apex:pageBlock >
+            <apex:pageBlockSection title="Total Event Completed" collapsible="true">
+                
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+        
+        <apex:pageBlock >
+            <apex:pageBlockSection title="Total Upcoming Event" collapsible="true">
+                
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+        <apex:pageBlock >
+            <apex:pageBlockSection title="Total Event Cancelled" collapsible="true">
+                
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

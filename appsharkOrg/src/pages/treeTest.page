@@ -1,0 +1,40 @@
+<apex:page controller="AccountsExpandAllCollapseAll"  action="{!getAccountHierarchy}" tabStyle="Account">
+    <apex:pageMessages />
+  
+        <!-- Include the Jquery Script files -->
+        <link href="{!URLFOR($Resource.jQuery,'Collapsible-Data-Grid-Plugin-With-jQuery-Treegrid/dist/css/jquery.treegrid.css')}" rel="stylesheet"/>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="{!URLFOR($Resource.jQuery,'Collapsible-Data-Grid-Plugin-With-jQuery-Treegrid/dist/js/jquery.treegrid.min.js')}"></script>
+ <!-- End of Javascript files -->
+           <script>
+      var  $j = jQuery.noConflict();     //fuction for no duplication name in file
+    $j(document).ready( function () {
+    $j('.tree').treegrid();
+     });
+    </script>
+     <table class="tree">
+  <tbody>
+        <apex:form >   
+             
+                
+                
+                        <!--Displaying Parent Accounts-->
+       <tr class="treegrid-1 expanded">
+                       <td> <apex:repeat value="{!listAccResult}"  var="objParent">
+                          
+                            <li>
+                                    <apex:outputText value="{!objParent.name}" /> 
+                                <ul>
+                                    <!--Displaying Child Accounts Level one-->
+                                    <apex:repeat value="{!objParent.ChildAccounts}"  var="gChild1">
+                                        <apex:outputText value="{!gChild1.name}" style="color:blue;"/>
+                   						 </apex:repeat>
+                                </ul>
+                            </li> 
+                        </apex:repeat> </td>
+             </tr>
+                    
+        </apex:form> 
+         </tbody>
+    </table>
+</apex:page>

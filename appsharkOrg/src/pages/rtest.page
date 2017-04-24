@@ -1,0 +1,62 @@
+<!-- Author:-Babitha Jampani,
+ * Date:-02/08/16,
+ * Description:- Visual force page for displays accounts with checkbox, and display selected account's related contacts in other section
+ * Modification History -->
+
+<apex:page id="Page" controller="DisplayAccWhichHaveCon">
+<script>
+    //It alerts whether we check more than the given input value to select account checkbox and calls the function for showing contacts immediately after selecting checkbox
+    function checkboxes(chkbox)
+    {
+        //Holds all checkboxes        
+        var inputElems = document.getElementsByTagName("input");
+        //Holds input value
+        var inputvalue = document.getElementById("Page:fm:inputid").value;        
+        var count = 0;
+        //Loop to count selected checkboxes
+    	for (var i=0; i<inputElems.length; i++) 
+        {
+            //It checks whether checkbox is checked or not and id yes count is increased
+    		if (inputElems[i].checked == true)
+            {
+        		count++;                        		
+    		} 
+        }
+        //if the count value less than input given value then it invokes apex class method DisplayConwithAcc to display selected accounts with their contacts
+        if(count<=inputvalue)
+        {
+              showContacts();
+        }
+        //if the count value is more than input given value it alerts user and restrict to select checkbox.
+        if(count>inputvalue)
+        {	            
+           	alert('You can select only' + inputvalue + 'account records');
+            if(chkbox.checked==true)
+            chkbox.checked=false;            			
+            return false;        
+        }
+     }        
+</script>    
+    <apex:form id="fm">    	
+    <apex:pageBlock id="pb">
+		<!--Shows the list of Account values that have contacts with check boxes-->        
+        <apex:pageBlockTable id="pbt" value="{!lstAccwrp}" var="objAccWrp">
+            <apex:column >
+                <apex:inputCheckbox value="{!objAccWrp.selected}" onclick="checkboxes(this)" id="checkbox"/>                
+            </apex:column>            
+            <apex:column value="{!objAccWrp.objAcc.Name}"/>            
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+       No. Of Selected Accounts  :&nbsp; <apex:inputText id="inputid"/>
+	   <apex:actionFunction name="showContacts" action="{!DisplayConwithAcc}" reRender="fm"/>	
+        <apex:pageBlock >
+            <!--Displays list of accounts selected with their contacts when check box is selected-->
+        	<apex:pageBlockTable value="{!lstAcc}" var="objAcc" >
+                <apex:column value="{!objAcc.Name}"/>               
+                	<apex:repeat value="{!objAcc.contacts}" var="objCon">
+                        <apex:Column headervalue="ContactName" value="{!objCon.LastName}"/><br/>                    
+                    </apex:repeat>                
+            </apex:pageBlockTable>        
+        </apex:pageBlock>     
+   </apex:form>
+</apex:page>

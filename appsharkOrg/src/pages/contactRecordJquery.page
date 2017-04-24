@@ -1,0 +1,108 @@
+<!--  Author : Appshark Developer
+Date : 21/9/2016
+Description : Display contact record with pagination,searching,sorting,checkbox.
+Modification History : -->
+<apex:page controller="contactRecordJquery" tabStyle="contact" id="pg1">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+    j$ = jQuery.noConflict();     //fuction for no duplication name in file
+    j$(document).ready( function () {
+        var casetable = j$('[id$="pbt1"]').DataTable();                   
+        casetable.draw(); 
+        // var rows = casetable.rows(1).data();
+    
+    });
+    function Edit(i)	//Function for Edit Button
+    { 
+        var ele='pg1:fm1:pb1:pbt1:';
+        document.getElementById(ele+i+":opId").style.display = "none";
+        document.getElementById(ele+i+":ipId").style.display = "";
+        document.getElementById(ele+i+":opIdEmail").style.display = "none";
+        document.getElementById(ele+i+":ipIdEmail").style.display = "";
+        document.getElementById(ele+i+":opIdPhone").style.display = "none";
+        document.getElementById(ele+i+":ipIdPhone").style.display = "";
+        document.getElementById(ele+i+":save").style.display = "";
+        document.getElementById(ele+i+":cancel").style.display = "";
+        document.getElementById(ele+i+":Edit").style.display = "none";              
+    }
+    function Cancel(i)	//Function for Cancel Button
+    {     
+        var ele2='pg1:fm1:pb1:pbt1:';
+        document.getElementById(ele2+i+":opId").style.display = "";
+        document.getElementById(ele2+i+":ipid").style.display = "none";
+        document.getElementById(ele2+i+":opIdEmail").style.display = "";
+        document.getElementById(ele2+i+":ipIdEmail").style.display = "none";
+        document.getElementById(ele2+i+":ipIdPhone").style.display = "none";
+        document.getElementById(ele2+i+":opIdPhone").style.display = "";
+        document.getElementById(ele2+i+":save").style.display = "none";
+        document.getElementById(ele2+i+":cancel").style.display = "none";
+        document.getElementById(ele2+i+":Edit").style.display = "";
+    }
+    function updateButton(rc,cc,ele){
+                        var idIndex = 0;
+                        var index = 0;
+                         j$('#sObjectTab thead tr th').each(function(){
+                            
+                            if(j$(this).text().trim() == "Actions"){
+                                idIndex = index;   
+                            }
+                            index++;
+                        });
+                        index = 0;
+                        j$(ele).closest('tr').find('td').each(function(){
+							                            
+                            if(index != idIndex){
+                                if(j$(this).find("input").val()==''){
+                                	saveValues+=null+',';
+                                }
+                                else{
+                             			saveValues+=j$(this).find("input").val()+',';
+                                }
+                               	j$(this).find("span").html=j$(this).find("input").val();
+                                j$(this).find("span[id*='op']").css('display','') ;
+                                j$(this).find("input[id*='ip']").css('display','none') ;
+                            }
+                            index++;
+                        });
+                        
+                        console.log(saveValues);
+                        updateRecord(saveValues);
+        /* document.getElementById('pg:fm:pb:rep1:'+rc+':editLink').style.display='';
+                        document.getElementById('pg:fm:pb:rep1:'+rc+':saveLink').style.display='none';
+                        document.getElementById('pg:fm:pb:rep1:'+rc+':cancelLink').style.display='none';*/
+                        
+                    }
+        
+    </script>
+    <apex:form id="fm1">
+        <apex:pageBlock id="pb1">   
+            <apex:variable var="i" value="{!0}"/>        
+            <apex:pageBlockTable id="pbt1" value="{!lstcontact}" var="objcon">
+                <apex:column >
+                <apex:inputCheckbox id="chckbox"/>
+                </apex:column>
+                <apex:column headerValue="Action" >                 
+                    <apex:commandButton value="Edit" id="Edit" onclick="Edit({!i},this);return false;"/>
+                    <apex:commandButton value="save" id="save" style="display:none" onclick="updateButton({!i},this)" />
+                    <apex:commandButton value="cancel" id="cancel" style="display:none" onclick="Cancel({!i},this);return false;"/>
+                </apex:column>
+                <apex:column headerValue="Name">
+                    <apex:inputField value="{!objcon.LastName}" id="ipId" style="display:none;"/>
+                    <apex:outputField value="{!objcon.LastName}" id="opId" />                
+                </apex:column>
+                <apex:column headerValue="Email">
+                    <apex:inputField value="{!objcon.Email}" id="ipIdEmail" style="display:none;"/>
+                    <apex:outputField value="{!objcon.Email}" id="opIdEmail" />                
+                </apex:column>
+                <apex:column headerValue="Phone">
+                    <apex:inputField value="{!objcon.MobilePhone}" id="ipIdPhone" style="display:none;"/>
+                    <apex:outputField value="{!objcon.MobilePhone}" id="opIdPhone" />
+                    <apex:variable var="i" value="{!i+1}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

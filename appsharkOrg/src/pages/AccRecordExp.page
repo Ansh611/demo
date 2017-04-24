@@ -1,0 +1,19 @@
+<apex:page Controller="AccImportCsv" sidebar="false"  language="en-US">
+    <script>
+    function Export()
+    {
+            window.open('//anshulappshark-dev-ed--anshulappshark.ap2.visual.force.com/apex/AccImportCsv');
+    }
+    </script>
+    <apex:form >
+        <apex:pageBlock >
+        <apex:pageBlockTable value="{!LstAcc}" var="LA" >
+             <apex:column value="{!LA.Name}" />
+             <apex:column value="{!LA.Id}" />
+            <apex:column value="{!LA.billingCity}" />
+             <apex:column value="{!LA.Website}" />
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    <apex:commandButton value="Export" onclick="Export();" />
+    </apex:form>
+</apex:page>

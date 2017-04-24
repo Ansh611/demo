@@ -1,0 +1,24 @@
+<apex:page controller="objectList">
+    <apex:form >
+        <apex:inputText value="{!inputText1}"/> 
+        <apex:commandButton value="search" action="{!QueryString}"/>
+        <apex:pageBlock > 
+            <apex:pageBlockSection >
+                <table name="result"> 
+                    <tr> <th>record Id</th> <th> record name</th> </tr> 
+                    <apex:repeat value="{!myNotes}" var="note"> 
+                        <apex:repeat value="{!note}" var="item">
+                           <tr><th>{!item['id']} </th></tr>
+                            <apex:commandLink >{!item['name']}
+                                <apex:param name="item" value="{!item['id']}"/> 
+                            </apex:commandLink>
+                        </apex:repeat> 
+                    </apex:repeat> 
+                </table> 
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:outputPanel id="out">
+            <apex:detail subject="{!$CurrentPage.parameters.item}" relatedList="true" rendered="true" />
+        </apex:outputPanel> 
+    </apex:form> 
+</apex:page>

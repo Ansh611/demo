@@ -1,0 +1,18 @@
+<apex:page controller="emailcontact">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="3">                
+                LastName :<apex:inputText value="{!strLastName}"/>
+                <apex:commandButton value="Search" action="{!doSearchCon}"/>
+            </apex:pageBlockSection>           
+        </apex:pageBlock>
+        <apex:pageBlock id="pb" rendered="{!flag}">                
+                <apex:pageBlockTable value="{!lstCon}" var="objcon">
+                    <apex:column value="{!objCon.LastName}"/>
+                    <apex:column value="{!objCon.Email}"/>                 
+                </apex:pageBlockTable>
+                <apex:inputTextarea richText="true" value="{!body}"/>
+                <apex:commandButton value="Send Email" action="{!sendEmail}"/>
+        </apex:pageBlock>        
+    </apex:form>     
+</apex:page>

@@ -1,0 +1,56 @@
+<!-- Author     :- Anshul deshmukh 
+     Date       :- 3/8/2016
+     Description:- Display account list which have contact along with checkbox and text field if u enter 2 in text box and check 2 account then show related contact
+     Modified by:--->
+
+<apex:page Controller="Display_account_related_contact" id="pg">
+ 	<script>
+		function selectAllCheckboxes(checkBox){
+			var count = 0;
+    		var chkboxes= document.getElementsByTagName("input");
+            //alert(chkboxes.length);
+    		var compare=  document.getElementById("pg:fm:tb").value
+    		compare=parseInt(compare);
+        	for(var i=0;i<chkboxes.length;i++){
+            	if(chkboxes[i].checked==true){
+            	count++;
+            	}
+        	}
+        	if(count<=compare){
+				show();
+        	}
+        	else{
+            	if(checkBox.checked==true){
+             	checkBox.checked=false;
+             	alert("Do not exceed check entered in text field");
+                return false;
+        		}
+        	}
+		}
+    </script>
+    <apex:form id="fm">
+    
+    	<apex:pageBlock id="pb" >
+        <apex:pageBlockTable id="pbt" value="{!lstaccwrap}" var="objaw">
+            <apex:column >
+                <apex:inputCheckbox value="{!objaw.selected}" onclick="selectAllCheckboxes(this);" id="chkbox"  />
+            </apex:column>
+            <apex:column >
+            	<apex:outputLabel value="{!objaw.objAcc.Name}"></apex:outputLabel>
+            </apex:column>
+        </apex:pageBlockTable>
+    	</apex:pageBlock>
+    	<apex:inputText id="tb" />
+    	<apex:commandButton value="" action="{!showList}" />
+    	<apex:pageBlock id="pb2" >
+    		<apex:pageBlockTable value="{!lstAcc}" var="a" >
+        		<apex:column value="{!a.Name}"/>
+        		<apex:column > 
+        			<apex:repeat value="{!a.contacts}" var="b">
+            			<apex:outputLabel value="{!b.LastName}" /><br/>
+            		</apex:repeat>
+        		</apex:column>
+        	</apex:pageBlockTable>
+    	</apex:pageBlock>
+   </apex:form> 
+</apex:page>

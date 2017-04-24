@@ -1,0 +1,13 @@
+<apex:page Standardcontroller="Product_list__c" recordSetVar="lstAcc" extensions="Autocalculation">
+    <script>
+    </script>
+    <apex:form >
+        <apex:pageBlock >
+        <apex:pageBlockTable value="{!lstAcc}" var="objAcc" id="pbt">
+           <apex:column headerValue="Quantity">
+           <apex:inputText value="{!objAcc.Product_name__c}" id="accName" />
+        </apex:column>
+        </apex:pageBlockTable>
+        </apex:pageBlock>    
+    </apex:form>
+</apex:page>

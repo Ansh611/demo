@@ -1,0 +1,33 @@
+<!--  Author : Appshark Developer
+      Date : 15/9/2016
+      Description : display case record when check on status checkbox, shows records accordingly 
+      Modification History : -->
+<apex:page controller="demo_casestatus">
+    <apex:form >
+    <apex:pageBlock >
+    <!--apex:inputCheckbox title="new" id="New" selected="true"/-->  
+        <input type="checkbox" id="new" checked="true" onclick="{!statusname}"/>New
+        <input type="checkbox" id="closed" checked="true" onclick="{!statusname}"/>Closed
+        <input type="checkbox" id="working" checked="true" onclick="{!statusname}"/>Working
+        <input type="checkbox" id="escalated" checked="true" onclick="{!statusname}"/>Escalated
+        <table id="caseTable" class="display">
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Subject</th>
+                    <th>Case Number</th>
+				</tr>
+			</thead>
+			<tbody>
+				<apex:repeat value="{!lstcase}" var="c">
+					<tr>
+						<td>{!c.status}</td>
+						<td>{!c.Subject}</td>
+						<td>{!c.CaseNumber}</td>
+					</tr>
+				</apex:repeat>
+			</tbody>
+		</table>
+     </apex:pageBlock>
+    </apex:form>
+</apex:page>

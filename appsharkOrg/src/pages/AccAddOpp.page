@@ -1,0 +1,16 @@
+<apex:page standardController="Account" extensions="AccAddOpp" showHeader="false" sidebar="false">
+     <apex:form id="fm" >  
+        <apex:pageBlock id="pb" >  
+            <center>
+                <apex:commandButton value="Add Opportunity" action="{!addOpportunity}"/>
+                <apex:commandButton value="Save" action="{!selectedRecords}" rerender="fm"/>
+            </center>
+            <apex:pageBlockTable value="{!wrapperRecordList}" var="wrap" id="pbt1">  
+                <apex:column headerValue="Select">            
+                    <apex:inputCheckbox value="{!wrap.isSelected}" id="inputcheck"/>  
+                </apex:column>  
+                <apex:column value="{!wrap.oppRecord.Name}"/> 
+            </apex:pageBlockTable>  
+        </apex:pageBlock>  
+    </apex:form> 
+</apex:page>

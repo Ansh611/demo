@@ -1,0 +1,48 @@
+<apex:page standardController="Contact" extensions="ContactExt">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Angular Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+    <div ng-app="app" ng-controller="formController">
+        <form name="myForm" novalidate="novalidate">
+            <table>
+            <tr>
+            <td>First Name:</td><td><input type="text" name="FirstName" ng-model="contact.FirstName"/></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td><td><input type="text" required="true" name="LastName" ng-model="contact.LastName"/>
+                    <span class="error" ng-show="myForm.LastName.$error.required">Required!</span></td>
+                        </tr>
+                    <tr>
+                        <td>Mobile Phone:</td><td><input type="text" name="MobilePhone" ng-pattern="/^[0-9 ()-]{0,}[0-9]{1,}$/" ng-model="contact.MobilePhone"/>
+                        <span class="error" ng-show="myForm.MobilePhone.$error.pattern">Invalid phone!</span></td>
+                            </tr>
+                        <tr>
+                            <td>Email:</td><td><input type="email" name="Email" ng-model="contact.Email"/>
+                                <span ng-show="myForm.Email.$error.email">This email format is invalid!</span></td>
+                                    </tr>
+                                <tr>
+                                    <td>Mobile Description:</td><td><textarea type="text" name="Description" ng-model="contact.Description" rows="4" cols="50"/></td>
+                                    </tr>
+                                    </table>
+                                    <input type="button" ng-click="save()" ng-disabled="myForm.$pristine || myForm.$dirty && myForm.$invalid" value="Save"/>
+                                        </form>
+                                    </div>
+                                    
+                                    <script>
+		var app = angular.module('app', []);
+        app.controller('formController', function ($scope) {
+        $scope.contact = {!contactJson};
+    $scope.save = function()
+    {
+    saveMethod(JSON.stringify($scope.contact));
+    }
+    });
+</script>
+    <apex:form >
+        <apex:actionFunction name="saveMethod" action="{!save}" oncomplete="location.reload();">
+            <apex:param assignTo="{!contactJson}" name="contactJson" value="x"/>
+        </apex:actionFunction>
+    </apex:form>
+</apex:page>

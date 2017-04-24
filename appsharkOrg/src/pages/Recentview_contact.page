@@ -1,0 +1,5 @@
+<apex:page controller="Recent_view_contact">
+    <apex:pageBlock title="Recent Contact list">
+    
+    </apex:pageBlock>
+</apex:page>

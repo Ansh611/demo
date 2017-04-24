@@ -1,0 +1,27 @@
+<!-- Author: Appshark Developer
+	Date : 26/09/2016
+	Description : Show Account Name coloum wise and do alphabetic pagination.
+	Modification History : -->
+<apex:page controller="AccountName">
+  <apex:pageMessages ></apex:pageMessages>
+    <script>
+     window.onload = function(){
+     Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.AccountName.getProduct_list}',
+                function(result, event) {
+                    if(event.status)
+                        {
+                        
+                        }
+     }
+    
+    </script>
+      <apex:form >
+        <apex:sectionHeader title="Account" subtitle="Details"/>        
+        <apex:pageBlock >
+            <div id="table" align="center">
+                <!-- products list is displayed here. -->
+            </div> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

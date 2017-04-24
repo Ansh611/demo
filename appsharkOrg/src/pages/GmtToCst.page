@@ -1,0 +1,37 @@
+<apex:page controller="sample1">
+    <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.11/moment-timezone.min.js"></script>
+    </head>
+    <script type = "text/javascript">
+     window.onload=function()       
+     {     
+         var table = document.getElementById('MyTable');
+         for (var r = 0, n = table.rows.length; r < n; r++) {
+             for (var c = 1, m = table.rows[r].cells.length; c < m; c++) {
+                 tabValue = (table.rows[r].cells[c].innerHTML);
+                 // construct a moment object with UTC-based input
+                 alert(tabValue);
+             
+             }
+             }
+     }:
+    </script>
+                
+
+    <table id = "MyTable">
+        
+        
+        <apex:repeat value="{!acct}" var="a" >
+            
+            <tr>
+                <td>{!a.Name}</td>
+                <div id = "date">
+                    <td>{!a.LastModifiedDate}</td>
+                </div>
+            </tr>
+        </apex:repeat>
+        
+        
+    </table>
+</apex:page>

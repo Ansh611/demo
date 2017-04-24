@@ -1,0 +1,46 @@
+<apex:page standardController="Account" extensions="AddOppo" showHeader="false" sidebar="false" id="pg1">
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+    j$ = jQuery.noConflict();     //fuction for no duplication name in file
+    function DatTab(){
+        var casetable = j$('[id$="pbt1"]').DataTable();                   
+        casetable.draw(); 
+        // var rows = casetable.rows(1).data();
+    });
+    /*  function save(contId){
+        alert('save');
+        saveopp(document.getElementById(contId).value);
+    }*/
+  
+    </script>
+    <apex:form id="fm1">
+        <apex:pageBlock title="Add Opportunities to Account" id="pb1">
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:panelGroup >
+                        <apex:commandButton value="Add Opportunity" action="{!getOpp}" rerender="resultsBlock"/>
+                        <apex:commandButton value="Save" action="{!addOpp}"/>
+                    </apex:panelGroup>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:variable var="i" value="{!0}"/>
+            <apex:pageBlockSection id="resultsBlock" columns="1">
+                <apex:pageBlockTable value="{!wrappers}" var="wrap" id="pbt1" >
+                    <apex:column headerValue="Select">            
+                        <apex:inputCheckbox value="{!wrap.isSelected}"/>  
+                    </apex:column> 
+                    <apex:param name="{!wrap.myAccount.Id}" value="{!wrap.myAccount.Id}" assignTo="{!ParamSave}"/>
+                    <apex:column rendered="false">
+                        <apex:outputField value="{!wrap.myAccount.Id}" id="Accid" style="display:none;"/>
+                    </apex:column>
+                    <apex:column headerValue="Name">                    
+                        <apex:outputField value="{!wrap.myAccount.name}" id="outputName"/>
+                    </apex:column>
+                    <apex:variable var="i" value="{!i+1}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

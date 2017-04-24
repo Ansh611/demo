@@ -1,0 +1,136 @@
+<!-- Author:-Appshark Developer,
+* Date:-14/09/16,
+* Description:- Displaying Account and Contacts as treeview with edit and delete functionality for contacts.
+* Modification History:--->
+<apex:page id="page" tabstyle="Account" controller="AccAndConWithTreeView" showheader="false">
+    <script>    
+    function switchMenu(obj,obj1,obj2)//script to display and accounts and contacts as treeview 
+    {
+        var el = document.getElementById(obj); /* Function to display or hide the contacts*/                                      
+        if ( el.style.display != 'none' ) {
+            el.style.display = 'none';
+        }
+        else {
+            el.style.display = '';
+        }
+        var e2 = document.getElementById(obj1);                                       
+        if ( e2.style.display != 'none' ) {
+            e2.style.display = 'none';
+        }
+        else {
+            e2.style.display = '';
+        }
+        var e3 = document.getElementById(obj2);                                       
+        if ( e2.style.display != 'none' ) {
+            e3.style.display = 'none';
+        }
+        else {
+            e3.style.display = '';
+        }
+    }
+    function ContactEdit(AccountRow,ContactRow)//It gets values from given id and when we click on edit button and it hides detail mode and edit button and displays editmode to edit record,save and cancel buttons.
+    {
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":outputid").style.display = "none";      
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":ipid").style.display = "";        
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":outputidphone").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":ipidphone").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":save").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":cancel").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":Edit").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":Delete").style.display = "none";
+    }
+    function Cancel(AccountRow,ContactRow)//when we click cancel button it hides editmode,save,cancel buttons and displays detailmode and edit,delete button
+    {
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":outputid").style.display = "";      
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":ipid").style.display = "none";        
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":outputidphone").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":ipidphone").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":save").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":cancel").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":Edit").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":Delete").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":OK").style.display = "none";
+    }
+    function Delete(AccountRow,ContactRow)//when we click on delete it asks for ok and cancel for deleting
+    {
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":outputid").style.display = "";      
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":ipid").style.display = "none";       
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":outputidphone").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":ipidphone").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":save").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":cancel").style.display = "";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":Edit").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":Delete").style.display = "none";
+        document.getElementById("page:fm:pb:pbt:"+AccountRow+":pbtCon:"+ContactRow+":OK").style.display = "";
+    }
+    function ContactDel(conId)//Passing record id of contact for deleting
+    {
+        document.getElementById("page:fm:pb:inhidden").value=conId; 
+        Condelete();
+    }
+    function saveContact(contId,ConLstName,ConPhn)//passing record values of Contact for updating 
+    {
+        document.getElementById("page:fm:pb:inhidden").value=contId; 
+        document.getElementById("page:fm:pb:inLastName").value=document.getElementById(ConLstName).value;        
+        document.getElementById("page:fm:pb:inPhone").value=document.getElementById(ConPhn).value; 
+        SavingContact();
+    }    
+    </script>
+    <apex:form id="fm">
+        <apex:actionFunction name="Condelete" action="{!contactDelete}" rerender="fm"/><!--Invokes apex method to delete record-->
+        <apex:actionFunction name="SavingContact" action="{!saveRecord}" rerender="pbtCon"/><!--Invokes apex method to update record-->
+        <apex:pageblock id="pb">
+            <apex:inputHidden value="{!ParamDelete}" id="inhidden"/>
+            <apex:inputHidden value="{!paramLastName}" id="inLastName"/>
+            <apex:inputHidden value="{!paramPhone}" id="inPhone"/>
+            <apex:variable var="AccountRow" value="{!0}"/>
+            <apex:pageblocktable id="pbt" value="{!accsAndContact}"  var="accdet">        
+                <apex:column >
+                    <apex:facet name="header">                                        
+                        Accounts and Contacts TreeView
+                    </apex:facet>
+                    <table>
+                        <tr>
+                            <td>
+                                <!--apex:outputpanel id="plusimage"><!-- Displaying Account and contacts collapsible and expand all view with plus and minus symbols>
+                                    <apex:image url="{!$Resource.Plus_Image}" onclick="switchMenu('{!$Component.inlinetablesec}','{!$Component.minusimage}','{!$Component.plusimage}')"/>
+                                    <apex:outputtext value="{!accdet.Name}"/>                   
+                                </apex:outputpanel-->
+                            </td>
+                            <td>
+                                <!--apex:outputpanel id="minusimage" style="display:none;">
+                                    <apex:image url="{!$Resource.Minus_image}" onclick="switchMenu('{!$Component.inlinetablesec}','{!$Component.plusimage}','{!$Component.minusimage}')"/>
+                                    <apex:outputtext value="{!accdet.Name}"/>                                     
+                                </apex:outputpanel-->
+                            </td>
+                            <td>
+                                <apex:outputpanel id="inlinetablesec" style="display:none;">
+                                    <apex:variable var="ContactRow" value="{!0}"/>
+                                    <apex:pageBlockTable id="pbtCon" value="{!accdet.Contacts}" var="objCon">
+                                        <apex:column headerValue="Action" id="col">
+                                            <apex:commandButton value="Edit" id="Edit" onclick="ContactEdit('{!AccountRow}','{!ContactRow}');return false;"/><!--Invokes the javascript contactEdit function and pass AccountRow,ContactRow as parameter-->                            
+                                            <apex:commandButton value="Delete" onclick="Delete('{!AccountRow}','{!ContactRow}');return false;" id="Delete"/><!--Invokes javascript delete function and pass AccountRow,ContactRow as parameter-->
+                                            <apex:commandButton value="cancel" id="cancel" style="display:none" onclick="Cancel('{!AccountRow}','{!ContactRow}');return false;"/><!--Invokes the javascript Cancel function and pass AccountRow,ContactRow as parameter-->                
+                                            <apex:commandButton value="save" id="save" style="display:none" onclick="saveContact('{!objCon.Id}','{!$Component.ipid}','{!$Component.ipidphone}');return false;" status="counterStatus"/><!--Updating selected record-->
+                                            <apex:commandButton value="OK" id="OK" onclick="ContactDel('{!objCon.Id}');return false;" style="display:none"/><!--Deleting Selected record-->                     
+                                        </apex:column>
+                                        <apex:column headerValue="Contact Name" id="opcol">
+                                            <apex:outputfield id="outputid" value="{!objCon.LastName}"/>
+                                            <apex:inputField id="ipid" value="{!objCon.LastName}" style="display:none"/>
+                                        </apex:column>
+                                        <apex:column headerValue="Phone">
+                                            <apex:outputField id="outputidphone" value="{!objCon.Phone}"/>
+                                            <apex:inputField id="ipidphone" value="{!objCon.Phone}" style="display:none"/>
+                                            <apex:variable var="ContactRow" value="{!ContactRow+1}"/>
+                                        </apex:column>
+                                    </apex:pageBlockTable>
+                                </apex:outputpanel>
+                            </td>
+                            <apex:variable var="AccountRow" value="{!AccountRow+1}"/>
+                        </tr> 
+                    </table>
+                </apex:column>                             
+            </apex:pageblocktable>       
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

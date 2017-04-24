@@ -1,0 +1,82 @@
+<apex:page standardcontroller="Account">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        <script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+        <script type="text/javascript">
+            window.onload = function () {
+            var searchManager = null;
+            var street ='{!Account.BillingStreet}';
+            var city = '{!Account.BillingCity}';
+            var state = '{!Account.BillingState}';
+            var postalCode = '{!Account.BillingPostalCode}';
+            var country ='{!Account.BillingCountry}';
+            var address = '';
+            if (street && street != '') {
+                address += street + ', ';
+            }
+            if (city && city != '') {
+                address += city + ', ';
+            }
+            if (state && state != '') {
+                address += state + ', ';
+            }
+            if (postalCode && postalCode != '') {
+                address += postalCode + ', ';
+            }
+            if (country && country != '') {
+                address += country;
+            }
+            //Only load map if the account has billing address information
+            if (address.length > 0) {
+                var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                    credentials: 'AtgajVaybzwuhPBNbJ3AT2m02j2rnPeLUd6i4Mv78PbLvuryyP6q2M6m-2m1wE9q',
+                    zoom: 15
+                });
+                //Load Search Module and geocode data
+                Microsoft.Maps.loadModule('Microsoft.Maps.Search', { callback: geocodeRequest });
+                function geocodeRequest() {
+                    if (searchManager == null) {
+                        searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                    }
+                    var request =
+                        {
+                            where: address,
+                            count: 1,
+                            callback: function (r) {
+                                if (r &&
+                                    r.results &&
+                                    r.results.length > 0) {
+                                    var pin = new Microsoft.Maps.Pushpin(r.results[0].location);
+                                    //var pin1 = new Microsoft.Maps.Pushpin();
+                                    //map.entities.push(pin1);
+                                    //  map.setView();
+                                    map.entities.push(pin);
+                                    
+                                    map.setView({ center: r.results[0].location });
+                                }
+                            },
+                            errorCallback: function () {
+                                alert("{!Account.Name}'s billing address could not be found");
+                            }
+                        };
+                    searchManager.geocode(request);
+                }
+            } else {
+                //Hide the map div
+                document.getElementById('myMap').style.display = 'none';
+            }
+        };
+        </script>
+        <style>
+            #myMap {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="myMap"></div>
+    </body>
+</apex:page>

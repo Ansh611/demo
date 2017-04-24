@@ -1,0 +1,71 @@
+<apex:page controller="Test_listView">
+    <style type="text/css">
+        .loading-icon {
+        background-image: url(/img/loading.gif);
+        width: 16px;
+        height: 16px;
+        }
+        a.alpha-link {
+        font-weight: normal;
+        font-size: 91%;
+        padding: 0 4px;
+        color: #015BA7 !important;
+        }
+        a.alpha-link+a.alpha-link {
+        border-left: 1px solid #CFCECE;
+        }
+        a.alpha-link:hover {
+        background-color: #e0f5fc !important;
+        }
+        a.alpha-select {
+        font-weight: bold;
+        text-decoration: none;
+        background-color: #C6E1FF;
+        color: #000000 !important;
+        }
+    </style>
+    <apex:form id="TheForm">
+        <apex:pageBlock id="TablePanel">
+            <div>
+                <!-- alphabet selection -->
+                <span style="float: right; margin: 5px 5px 5px 5px;"> 
+                    <!--apex:commandButton value="New Account" action="/001/e?"/--> 
+                    <apex:repeat value="{!AlphaList}" var="a">
+                        <apex:commandLink value="{!a}" action="{!BuildQuery}" rerender="TablePanel" styleClass="alpha-link{!if(AlphaFilter=a,' alpha-select','')}" status="status">
+                            <apex:param name="AlphaFilter" value="{!a}" assignTo="{!AlphaFilter}" />
+                        </apex:commandLink>
+                    </apex:repeat>
+                </span>
+            </div>
+            <div style="clear: both;"></div>
+            <apex:inputHidden value="{!AlphaFilter}" id="hiddenField" />
+            <!-- Account table -->
+            <apex:variable value="{!1}" var="counter"/>
+            <table>
+                    <tr></tr> <tr></tr> <tr></tr> <tr></tr>
+                    <apex:repeat value="{!CurrentAccountList}" var="a">
+                        <td><td><td><td><apex:outputLink value="/{!a.aAccount.id}">{!a.aAccount.Name}</apex:outputlink></td></td></td></td>
+                        <apex:outputText rendered="{!AND((MOD(counter, 4) == 0), (counter < CurrentAccountList.size))}" value="</tr><tr>" escape="false"/>
+                        <apex:variable var="counter" value="{!counter + 1}"/>      
+                    </apex:repeat>
+                 <tr></tr> <tr></tr> <tr></tr> <tr></tr>
+            </table>
+            <div style="margin-top: 5px;">
+                <apex:outputText value="Number of Records per Page: "/>
+                <apex:selectList value="{!RecPerPage}" size="1">
+                    <apex:selectOptions value="{!RecPerPageOption}"/>
+                    <apex:actionSupport event="onchange" action="{!BuildQuery}" reRender="TablePanel" status="TableUpdateStatus" />
+                </apex:selectList>
+                <center>
+                    <apex:commandButton disabled="{!!StdSetControllerAccount.hasPrevious}" value="<<" action="{!StdSetControllerAccount.first}" reRender="TablePanel" status="status"/>    
+                    <apex:commandButton disabled="{!!StdSetControllerAccount.hasprevious}" value="<Previous" action="{!StdSetControllerAccount.previous}" rerender="TablePanel" status="status"/> 
+                    <apex:commandButton disabled="{!!StdSetControllerAccount.hasnext}" value="Next>" action="{!StdSetControllerAccount.next}" rerender="TablePanel" status="status"/>
+                    <apex:commandButton disabled="{!!StdSetControllerAccount.hasNext}" value=">>" action="{!StdSetControllerAccount.last}" reRender="TablePanel" status="status"/>
+                </center>  
+            </div> 
+        </apex:pageBlock>
+    </apex:form>
+<center>
+<apex:actionStatus id="status" startText="Loading...."></apex:actionStatus>
+    </center>
+</apex:page>
